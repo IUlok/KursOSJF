@@ -1,21 +1,22 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class FramePanel extends JPanel {
     private java.util.List<Process> processes = new ArrayList<>();
     private Timer timer;
     private Process currentProcess = null;
+    public int counterTime = 0;
 
     public FramePanel() {
         setLayout(new BorderLayout());
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                counterTime += 1;
                 if (currentProcess != null && currentProcess.leftTimeProcess > 0) {
                     currentProcess.leftTimeProcess--;
                     if (currentProcess.leftTimeProcess == 0) {
@@ -74,6 +75,9 @@ public class FramePanel extends JPanel {
 
         int x = 30;
         int y = 30;
+        g.setFont(new Font("Arial", Font.BOLD, 10));
+        g.drawString("Время от начала работы программы: " + String.valueOf(counterTime),
+                getWidth()/2-35*3, 10);
 
         for (Process process : processes) {
             if (process.leftTimeProcess > 0) {
